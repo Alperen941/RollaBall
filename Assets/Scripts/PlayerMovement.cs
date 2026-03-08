@@ -1,18 +1,25 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 0; 
+    public TextMeshProUGUI countText;
+    public GameObject winText;
     
     private Rigidbody rb;
     private float movementX;
     private float movementY;
+    private int count;
     
     void Start()
     {
         //Initialize rigidbody physics component
-        rb = GetComponent <Rigidbody>(); 
+        rb = GetComponent <Rigidbody>();
+        count = 0;
+        SetCountText();
+        winText.SetActive(false);
     }
     
     void FixedUpdate() 
@@ -30,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.CompareTag("PickUp")) 
         {
             other.gameObject.SetActive(false);
+            count++;
+            SetCountText();
         }
     }
     
@@ -41,5 +50,14 @@ public class PlayerMovement : MonoBehaviour
         // initialize movement axis
         movementX = movementVector.x; 
         movementY = movementVector.y; 
+    }
+
+    void SetCountText() 
+    {
+        countText.text =  "Count: " + count.ToString();
+        if (count >= 8) 
+        {
+            winText.SetActive(true);
+        }
     }
 }
