@@ -57,7 +57,20 @@ public class PlayerMovement : MonoBehaviour
         countText.text =  "Count: " + count.ToString();
         if (count >= 8) 
         {
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
             winText.SetActive(true);
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Destroy the current object
+            Destroy(gameObject);
+            // Update the winText to display "You Lose!"
+            winText.gameObject.SetActive(true);
+            winText.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
+    }   
 }
